@@ -14,6 +14,8 @@ using DevExpress.Persistent.Validation;
 
 namespace MyCompanyInvoices.Module.BusinessObjects
 {
+    [NavigationItem("Business Area")]
+    [DefaultProperty("Name")]
     [DefaultClassOptions]
     //[ImageName("BO_Contact")]
     //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
@@ -29,10 +31,13 @@ namespace MyCompanyInvoices.Module.BusinessObjects
         public override void AfterConstruction()
         {
             base.AfterConstruction();
+            this.CreatedDate=DateTime.Now;
             // Place your initialization code here (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112834.aspx).
         }
-
         double? invoiceTotal;
+
+        DateTime createdDate;
+        Client client;
         Subsidiary subsidiary;
         string code;
         string name;
@@ -40,24 +45,40 @@ namespace MyCompanyInvoices.Module.BusinessObjects
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string Name
         {
-            get { return name; }
-            set { SetPropertyValue(nameof(Name), ref name, value); }
+            get
+            {
+                return name;
+            }
+            set
+            {
+                SetPropertyValue(nameof(Name), ref name, value);
+            }
         }
 
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string Code
         {
-            get { return code; }
-            set { SetPropertyValue(nameof(Code), ref code, value); }
+            get
+            {
+                return code;
+            }
+            set
+            {
+                SetPropertyValue(nameof(Code), ref code, value);
+            }
         }
-
         [Association("Subsidiary-InvoicesList")]
         public Subsidiary Subsidiary
         {
-            get { return subsidiary; }
-            set { SetPropertyValue(nameof(Subsidiary), ref subsidiary, value); }
+            get
+            {
+                return subsidiary;
+            }
+            set
+            {
+                SetPropertyValue(nameof(Subsidiary), ref subsidiary, value);
+            }
         }
-
         [Association("Invoice-Products")]
         public XPCollection<Product> Products
         {
@@ -66,13 +87,48 @@ namespace MyCompanyInvoices.Module.BusinessObjects
                 var collection = GetCollection<Product>(nameof(Products));
                 collection.CollectionChanged += UpdateCurrentInvoiceTotal;
                 return collection;
+
             }
         }
-
+        private Status status;
+        public Status Status
+        {
+            get { return status; }
+            set
+            {
+                SetPropertyValue("Status", ref status, value);
+            }
+        }
+        [Association("Client-Invoices")]
+        public Client Client
+        {
+            get
+            {
+                return client;
+            }
+            set
+            {
+                SetPropertyValue(nameof(Client), ref client, value);
+            }
+        }
+        
+        public DateTime CreatedDate
+        {
+            get
+            {
+                return createdDate;
+            }
+            set
+            {
+                SetPropertyValue(nameof(CreatedDate), ref createdDate, value);
+            }
+        }
+        // calculating taxes starts here
         void UpdateCurrentInvoiceTotal(object sender, XPCollectionChangedEventArgs args)
         {
             OnChanged("CurrentInvoiceTotal");
         }
+
 
         [Association("Invoice-Taxes")]
         public XPCollection<Tax> Taxes
@@ -95,7 +151,6 @@ namespace MyCompanyInvoices.Module.BusinessObjects
             }
             set { SetPropertyValue(nameof(InvoiceTotal), ref invoiceTotal, value); }
         }
-
         [NonPersistent]
         public double CurrentInvoiceTotal
         {
@@ -151,22 +206,18 @@ namespace MyCompanyInvoices.Module.BusinessObjects
             return total;
         }
 
-        CompanySeller seller;
-        [Association("Invoice-CompanySeller")]
-        public CompanySeller Seller
-        {
-            get
-            {
-                return seller;
-            }
-            set { SetPropertyValue(nameof(Seller), ref seller, value); }
-        }
-    }
 
-    public enum InvoiceStatus
-    {
-        Started = 1,
-        InProgress = 2,
-        Completed = 3
+
+
+        //ends here
+
+    }
+    public enum Status { 
+    [ImageName("State_Task_NotStarted")]
+        Started,        
+    [ImageName("State_Task_InProgress")]
+        InProgress,        
+    [ImageName("State_Task_Completed")]
+        Completed
     }
 }

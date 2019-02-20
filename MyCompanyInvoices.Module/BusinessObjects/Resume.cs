@@ -14,16 +14,11 @@ using DevExpress.Persistent.Validation;
 
 namespace MyCompanyInvoices.Module.BusinessObjects
 {
-    [NavigationItem("Company Managment")]
     [DefaultClassOptions]
-    //[ImageName("BO_Contact")]
-    //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
-    //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
-    //[Persistent("DatabaseTableName")]
-    // Specify more UI options using a declarative approach (https://documentation.devexpress.com/#eXpressAppFramework/CustomDocument112701).
-    public class Company : BaseObject
+    [NavigationItem("Clients Managment")]
+    public class Resume : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
-        public Company(Session session)
+        public Resume(Session session)
             : base(session)
         {
         }
@@ -32,36 +27,40 @@ namespace MyCompanyInvoices.Module.BusinessObjects
             base.AfterConstruction();
             // Place your initialization code here (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112834.aspx).
         }
-
-        string companyName;
-
+        
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
-        public string CompanyName
+        public string ResumeDescription
         {
             get
             {
-                return companyName;
+                return resumeDescription;
             }
             set
             {
-                SetPropertyValue(nameof(CompanyName), ref companyName, value);
+                SetPropertyValue(nameof(ResumeDescription), ref resumeDescription, value);
             }
         }
-        [Association("Company-CompanySeller")]
-        public XPCollection<CompanySeller> CompanySeller
+        string resumeDescription;
+        Client client;
+
+        [Association("Client-Resume")]
+        public Client Client
         {
             get
             {
-                return GetCollection<CompanySeller>(nameof(CompanySeller));
+                return client;
             }
-        }
-        [Association("Company-Subsidiaries")]
-        public XPCollection<Subsidiary> Subsidiaries
-        {
-            get
+            set
             {
-                return GetCollection<Subsidiary>(nameof(Subsidiaries));
+                SetPropertyValue(nameof(Client), ref client, value);
             }
         }
+        [DevExpress.Xpo.Aggregated, Association("Resume-Portfolio")]
+        public XPCollection<Portfolio> Portfolio
+        {
+            get { return GetCollection<Portfolio>("Portfolio"); }
+        }
+        
+       
     }
 }

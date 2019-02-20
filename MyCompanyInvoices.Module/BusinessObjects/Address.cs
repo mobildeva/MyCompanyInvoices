@@ -14,8 +14,8 @@ using DevExpress.Persistent.Validation;
 
 namespace MyCompanyInvoices.Module.BusinessObjects
 {
-
-
+   
+   [DefaultProperty("City")]
     public class Address : BaseObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
         public Address(Session session)
@@ -43,7 +43,7 @@ namespace MyCompanyInvoices.Module.BusinessObjects
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string City
         {
-            get { return city; }
+            get {return city; }
             set { SetPropertyValue(nameof(City), ref city, value); }
         }
 
@@ -53,7 +53,7 @@ namespace MyCompanyInvoices.Module.BusinessObjects
             get { return stateProvince; }
             set { SetPropertyValue(nameof(StateProvince), ref stateProvince, value); }
         }
-
+        
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string ZipPostal
         {

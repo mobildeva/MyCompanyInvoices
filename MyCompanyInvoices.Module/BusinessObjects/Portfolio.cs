@@ -14,15 +14,16 @@ using DevExpress.Persistent.Validation;
 
 namespace MyCompanyInvoices.Module.BusinessObjects
 {
+    [NavigationItem("Clients Managment")]
     [DefaultClassOptions]
     //[ImageName("BO_Contact")]
     //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
     //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
     //[Persistent("DatabaseTableName")]
     // Specify more UI options using a declarative approach (https://documentation.devexpress.com/#eXpressAppFramework/CustomDocument112701).
-    public class ClientCategory : BaseObject
+    public class Portfolio : FileAttachmentBase
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
-        public ClientCategory(Session session)
+        public Portfolio(Session session)
             : base(session)
         {
         }
@@ -31,21 +32,15 @@ namespace MyCompanyInvoices.Module.BusinessObjects
             base.AfterConstruction();
             // Place your initialization code here (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112834.aspx).
         }
-
-        Client clients;
-        string type;
-
-        [Size(SizeAttribute.DefaultStringMappingFieldSize)]
-        public string Type
+        protected Resume resume;
+        [Persistent, Association("Resume-Portfolio")]
+        public Resume Resume
         {
-            get { return type; }
-            set { SetPropertyValue(nameof(Type), ref type, value); }
-        }
-        [Association("Client-Category")]
-        public Client Clients
-        {
-            get { return clients; }
-            set { SetPropertyValue(nameof(Clients), ref clients, value); }
+            get { return resume; }
+            set
+            {
+                SetPropertyValue("Resume", ref resume, value);
             }
         }
     }
+}

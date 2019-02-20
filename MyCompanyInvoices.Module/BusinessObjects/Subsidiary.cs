@@ -14,6 +14,8 @@ using DevExpress.Persistent.Validation;
 
 namespace MyCompanyInvoices.Module.BusinessObjects
 {
+    [DefaultProperty("SubsidiaryName")]
+    [NavigationItem("Company Managment")]
     [DefaultClassOptions]
     //[ImageName("BO_Contact")]
     //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
@@ -38,8 +40,14 @@ namespace MyCompanyInvoices.Module.BusinessObjects
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string SubsidiaryName
         {
-            get { return subsidiaryName; }
-            set { SetPropertyValue(nameof(SubsidiaryName), ref subsidiaryName, value); }
+            get
+            {
+                return subsidiaryName;
+            }
+            set
+            {
+                SetPropertyValue(nameof(SubsidiaryName), ref subsidiaryName, value);
+            }
         }
         [Association("Subsidiary-CompanySellers")]
         public XPCollection<CompanySeller> Sellers
@@ -60,15 +68,24 @@ namespace MyCompanyInvoices.Module.BusinessObjects
         [Association("Company-Subsidiaries")]
         public Company Company
         {
-            get { return company; }
-            set { SetPropertyValue(nameof(Company), ref company, value); }
+            get
+            {
+                return company;
+            }
+            set
+            {
+                SetPropertyValue(nameof(Company), ref company, value);
+            }
         }
+
+       // [DataSourceCriteria("Products.isGlobal AND @this.Oid = 'Products.SubsidiaryId'")]
+
         [Association("Subsidiary-Products")]
         public XPCollection<Product> Products
         {
             get
-            {
-                return GetCollection<Product>(nameof(Products));
+            {                
+               return GetCollection<Product>(nameof(Products));
             }
         }
         [Association("Subsidiary-InvoicesList")]

@@ -15,6 +15,7 @@ using DevExpress.Persistent.BaseImpl.PermissionPolicy;
 
 namespace MyCompanyInvoices.Module.BusinessObjects
 {
+    [NavigationItem("Company Managment")]
     [DefaultClassOptions]
     //[ImageName("BO_Contact")]
     //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
@@ -30,7 +31,6 @@ namespace MyCompanyInvoices.Module.BusinessObjects
         public override void AfterConstruction()
         {
             base.AfterConstruction();
-            //subsidiaryId = Subsidiary.Oid;
             // Place your initialization code here (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112834.aspx).
         }
 
@@ -38,53 +38,57 @@ namespace MyCompanyInvoices.Module.BusinessObjects
         string name;
         Subsidiary subsidiary;
         Company company;
-
+        
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string LastName
         {
-            get { return lastName; }
-            set { SetPropertyValue(nameof(LastName), ref lastName, value); }
+            get
+            {
+                return lastName;
+            }
+            set
+            {
+                SetPropertyValue(nameof(LastName), ref lastName, value);
+            }
         }
 
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
         public string Name
         {
-            get { return name; }
-            set { SetPropertyValue(nameof(Name), ref name, value); }
+            get
+            {
+                return name;
+            }
+            set
+            {
+                SetPropertyValue(nameof(Name), ref name, value);
+            }
         }
         [Association("Company-CompanySeller")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        //[RuleUniqueValue]
         public Company Company
-        {
-            get { return company; }
-            set { SetPropertyValue(nameof(Company), ref company, value); }
-        }
-        [Association("Subsidiary-CompanySellers")]
-        public Subsidiary Subsidiary
-        {
-            get { return subsidiary; }
-            set { SetPropertyValue(nameof(Subsidiary), ref subsidiary, value); }
-        }
-
-        //Guid subsidiaryId;
-
-        [NonPersistent]
-        public Guid SubsidiaryId
         {
             get
             {
-                return Subsidiary != null ? Subsidiary.Oid : new Guid();
+                return company;
+            }
+            set
+            {
+                SetPropertyValue(nameof(Company), ref company, value);
             }
         }
         
-        [Association("Invoice-CompanySeller")]
-        public XPCollection<Invoice> Invoices
+        [DataSourceProperty("Company.Subsidiaries")]
+        [Association("Subsidiary-CompanySellers")]
+        [RuleRequiredField(DefaultContexts.Save)]
+        public Subsidiary Subsidiary
         {
             get
-            {                
-                return GetCollection<Invoice>(nameof(Invoices)); ;
+            {
+                return subsidiary;
             }
-            //set { SetPropertyValue(nameof(Seller), ref seller, value); }
+            set { SetPropertyValue(nameof(Subsidiary), ref subsidiary, value); }
         }
-
     }
 }

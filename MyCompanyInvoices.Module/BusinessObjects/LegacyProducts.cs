@@ -14,16 +14,15 @@ using DevExpress.Persistent.Validation;
 
 namespace MyCompanyInvoices.Module.BusinessObjects
 {
-    [NavigationItem("Company Managment")]
     [DefaultClassOptions]
     //[ImageName("BO_Contact")]
     //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
     //[DefaultListViewOptions(MasterDetailMode.ListViewOnly, false, NewItemRowPosition.None)]
     //[Persistent("DatabaseTableName")]
     // Specify more UI options using a declarative approach (https://documentation.devexpress.com/#eXpressAppFramework/CustomDocument112701).
-    public class Company : BaseObject
+    public class LegacyProducts : XPLiteObject
     { // Inherit from a different class to provide a custom primary key, concurrency and deletion behavior, etc. (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument113146.aspx).
-        public Company(Session session)
+        public LegacyProducts(Session session)
             : base(session)
         {
         }
@@ -33,35 +32,51 @@ namespace MyCompanyInvoices.Module.BusinessObjects
             // Place your initialization code here (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112834.aspx).
         }
 
-        string companyName;
+
+        double price;
+        int iD;
+        string name;
 
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
-        public string CompanyName
+        [Persistent]
+        public string Name
         {
             get
             {
-                return companyName;
+                return name;
             }
-            set
+            protected set
             {
-                SetPropertyValue(nameof(CompanyName), ref companyName, value);
+                SetPropertyValue(nameof(Name), ref name, value);
             }
         }
-        [Association("Company-CompanySeller")]
-        public XPCollection<CompanySeller> CompanySeller
+
+        [Key(false)]
+        [Persistent]
+        public int ID
         {
             get
             {
-                return GetCollection<CompanySeller>(nameof(CompanySeller));
+                return iD;
+            }
+            protected set
+            {
+                SetPropertyValue(nameof(ID), ref iD, value);
             }
         }
-        [Association("Company-Subsidiaries")]
-        public XPCollection<Subsidiary> Subsidiaries
+
+        [Persistent]
+        public double Price
         {
             get
             {
-                return GetCollection<Subsidiary>(nameof(Subsidiaries));
+                return price;
+            }
+            protected set
+            {
+                SetPropertyValue(nameof(Price), ref price, value);
             }
         }
+       
     }
 }

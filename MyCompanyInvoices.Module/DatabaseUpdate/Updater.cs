@@ -11,6 +11,7 @@ using DevExpress.Xpo;
 using DevExpress.ExpressApp.Xpo;
 using DevExpress.Persistent.BaseImpl;
 using DevExpress.Persistent.BaseImpl.PermissionPolicy;
+using MyCompanyInvoices.Module.BusinessObjects;
 
 namespace MyCompanyInvoices.Module.DatabaseUpdate {
     // For more typical usage scenarios, be sure to check out https://documentation.devexpress.com/eXpressAppFramework/clsDevExpressExpressAppUpdatingModuleUpdatertopic.aspx
@@ -26,6 +27,9 @@ namespace MyCompanyInvoices.Module.DatabaseUpdate {
             //    theObject = ObjectSpace.CreateObject<DomainObject1>();
             //    theObject.Name = name;
             //}
+            var instance = SingletonSettings.GetInstance(ObjectSpace);
+            if (ObjectSpace.IsModified)
+                ObjectSpace.CommitChanges();
             PermissionPolicyUser sampleUser = ObjectSpace.FindObject<PermissionPolicyUser>(new BinaryOperator("UserName", "User"));
             if(sampleUser == null) {
                 sampleUser = ObjectSpace.CreateObject<PermissionPolicyUser>();

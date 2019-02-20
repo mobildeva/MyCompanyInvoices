@@ -14,6 +14,7 @@ using DevExpress.Persistent.Validation;
 
 namespace MyCompanyInvoices.Module.BusinessObjects
 {
+    [NavigationItem("Business Area")]
     [DefaultClassOptions]
     //[ImageName("BO_Contact")]
     //[DefaultProperty("DisplayMemberNameForLookupEditorsOfThisType")]
@@ -35,11 +36,24 @@ namespace MyCompanyInvoices.Module.BusinessObjects
         string name;
 
         [Size(SizeAttribute.DefaultStringMappingFieldSize)]
-        public string Name
+        public string Name 
         {
-            get { return name; }
-            set { SetPropertyValue(nameof(Name), ref name, value); }
+            get
+            {
+                return name;
+            }
+            set
+            {
+                SetPropertyValue(nameof(Name), ref name, value);
+            }
         }
-
+        [Association("Category-Product")]
+        public XPCollection<Product> Product
+        {
+            get
+            {
+                return GetCollection<Product>(nameof(Product));
+            }
+        }
     }
 }

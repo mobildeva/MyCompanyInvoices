@@ -106,14 +106,28 @@
     <Compile Include="BusinessObjects\Address.cs" />
     <Compile Include="BusinessObjects\Category.cs" />
     <Compile Include="BusinessObjects\Client.cs" />
-    <Compile Include="BusinessObjects\ClientCategory.cs" />
     <Compile Include="BusinessObjects\Company.cs" />
     <Compile Include="BusinessObjects\CompanySeller.cs" />
     <Compile Include="BusinessObjects\Invoice.cs" />
-    <Compile Include="BusinessObjects\MainBasePerson.cs" />
+    <Compile Include="BusinessObjects\LegacyProducts.cs" />
+    <Compile Include="BusinessObjects\Portfolio.cs" />
     <Compile Include="BusinessObjects\Product.cs" />
+    <Compile Include="BusinessObjects\Resume.cs" />
+    <Compile Include="BusinessObjects\SingletonSettings.cs" />
     <Compile Include="BusinessObjects\Subsidiary.cs" />
     <Compile Include="BusinessObjects\Tax.cs" />
+    <Compile Include="Controllers\InvoiceStatus.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\InvoiceStatus.designer.cs">
+      <DependentUpon>InvoiceStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\Settings.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\Settings.designer.cs">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </Compile>
     <Compile Include="DatabaseUpdate\Updater.cs" />
     <Compile Include="Module.cs">
       <SubType>Component</SubType>
@@ -124,6 +138,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Controllers\InvoiceStatus.resx">
+      <DependentUpon>InvoiceStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Controllers\Settings.resx">
+      <DependentUpon>Settings.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Model.DesignedDiffs.xafml" />
     <EmbeddedResource Include="Module.resx">
       <SubType>Designer</SubType>
@@ -133,9 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DatabaseUpdate\ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="BusinessObjects\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Controllers\ReadMe.txt" />
