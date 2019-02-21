@@ -182,7 +182,7 @@ namespace MyCompanyInvoices.Module.BusinessObjects
                 {
                     case TaxType.percentual:
                         {
-                            taxesTotal += (total * tax.NumericValue) / 100;
+                            taxesTotal += total * ( tax.NumericValue/ 100);
                             break;
                         }
                     case TaxType.global:

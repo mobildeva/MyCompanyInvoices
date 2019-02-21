@@ -47,6 +47,7 @@
     <Reference Include="DevExpress.ExpressApp.CloneObject.v18.2, Version=18.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="DevExpress.ExpressApp.ConditionalAppearance.v18.2, Version=18.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
     <Reference Include="DevExpress.ExpressApp.Objects.v18.2, Version=18.2.4.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -119,7 +120,7 @@
     <Compile Include="Controllers\InvoiceStatus.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controllers\InvoiceStatus.designer.cs">
+    <Compile Include="Controllers\InvoiceStatus.Designer.cs">
       <DependentUpon>InvoiceStatus.cs</DependentUpon>
     </Compile>
     <Compile Include="Controllers\Settings.cs">

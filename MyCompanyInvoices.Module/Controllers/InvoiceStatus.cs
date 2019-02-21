@@ -21,15 +21,16 @@ namespace MyCompanyInvoices.Module.Controllers
     public partial class InvoiceStatus : ViewController
     {
         SingleChoiceAction changeTaskStatusAction;
-     //  ChoiceActionItem notStartedState;
+        //  ChoiceActionItem notStartedState;
         ChoiceActionItem StartState;
         ChoiceActionItem inProgressState;
         //ChoiceActionItem pausedState;
         ChoiceActionItem completedState;
-       // ChoiceActionItem droppedState;
-        public InvoiceStatus() {
+        // ChoiceActionItem droppedState;
+        public InvoiceStatus()
+        {
             TargetObjectType = typeof(Invoice);
-            
+
             changeTaskStatusAction = new SingleChoiceAction(this, "ChangeInvoiceStatus", DevExpress.Persistent.Base.PredefinedCategory.Edit);
             changeTaskStatusAction.ItemType = SingleChoiceActionItemType.ItemIsOperation;
             changeTaskStatusAction.ShowItemsOnClick = true;
@@ -37,26 +38,29 @@ namespace MyCompanyInvoices.Module.Controllers
             changeTaskStatusAction.Execute += changeTaskStatusAction_Execute;
             //changeTaskStatusAction.UseItemImage = ImageMode.UseItemImage;
             //notStartedState = new ChoiceActionItem("Not Started", TaskStatus.NotStarted);
-           
 
-            StartState = new ChoiceActionItem("Started",Status.Started );
-            StartState.ImageName="State_Task_NotStarted";
+
+            StartState = new ChoiceActionItem("Started", Status.Started);
+            StartState.ImageName = "State_Task_NotStarted";
             inProgressState = new ChoiceActionItem("In Progress", Status.InProgress);
-            inProgressState.ImageName="State_Task_InProgress";
-           
+            inProgressState.ImageName = "State_Task_InProgress";
+
             completedState = new ChoiceActionItem("Completed", Status.Completed);
-            completedState.ImageName="State_Task_Completed";
-            
-            changeTaskStatusAction.Items.AddRange(new ChoiceActionItem[] {  StartState, inProgressState,  completedState });
+            completedState.ImageName = "State_Task_Completed";
+
+            changeTaskStatusAction.Items.AddRange(new ChoiceActionItem[] { StartState, inProgressState, completedState });
         }
 
-        void changeTaskStatusAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e) {
-            foreach(Invoice task in View.SelectedObjects) {
+        void changeTaskStatusAction_Execute(object sender, SingleChoiceActionExecuteEventArgs e)
+        {
+            foreach (Invoice task in View.SelectedObjects)
+            {
                 task.Status = (Status)e.SelectedChoiceActionItem.Data;
             }
             View.ObjectSpace.CommitChanges();
         }
-        protected override void OnActivated() {
+        protected override void OnActivated()
+        {
             base.OnActivated();
             View.ObjectSpace.ObjectChanged += ObjectSpace_ObjectChanged;
             View.ObjectSpace.Reloaded += ObjectSpace_Reloaded;
@@ -64,50 +68,61 @@ namespace MyCompanyInvoices.Module.Controllers
             UpdateActionItems();
         }
 
-        void ObjectSpace_Reloaded(object sender, EventArgs e) {
+        void ObjectSpace_Reloaded(object sender, EventArgs e)
+        {
             UpdateActionItems();
         }
 
-        void View_SelectionChanged(object sender, EventArgs e) {
+        void View_SelectionChanged(object sender, EventArgs e)
+        {
             UpdateActionItems();
         }
 
-        void ObjectSpace_ObjectChanged(object sender, ObjectChangedEventArgs e) {
-            if(e.Object == View.CurrentObject) {
+        void ObjectSpace_ObjectChanged(object sender, ObjectChangedEventArgs e)
+        {
+            if (e.Object == View.CurrentObject)
+            {
                 UpdateActionItems();
             }
         }
 
-        private void UpdateActionItems() {
-           
-                StartState.Active[""] = false;
-                inProgressState.Active[""] = false;
-              
-                completedState.Active[""] = false;
-               
-                if(View.SelectedObjects.Count > 0) {
-                    Invoice task = (Invoice)View.SelectedObjects[0];
-                    if(task != null) {
-                            if(task.Status == Status.Started) {
-                        
-                                inProgressState.Active[""] = true;
-                            }                           
-                            else if(task.Status == Status.Started) {
-                                
-                            }
-                            else if(task.Status == Status.InProgress) {
-                               
-                                completedState.Active[""] = true;
-                                StartState .Active[""]=true;
-                              
-                            }                         
-                            
-                            else if(task.Status == Status.Completed) {
+        private void UpdateActionItems()
+        {
 
-                            }
-                           
+            StartState.Active[""] = false;
+            inProgressState.Active[""] = false;
+
+            completedState.Active[""] = false;
+
+            if (View.SelectedObjects.Count > 0)
+            {
+                Invoice task = (Invoice)View.SelectedObjects[0];
+                if (task != null)
+                {
+                    if (task.Status == Status.Started)
+                    {
+
+                        inProgressState.Active[""] = true;
                     }
+                    else if (task.Status == Status.Started)
+                    {
+
+                    }
+                    else if (task.Status == Status.InProgress)
+                    {
+
+                        completedState.Active[""] = true;
+                        StartState.Active[""] = true;
+
+                    }
+
+                    else if (task.Status == Status.Completed)
+                    {
+
+                    }
+
                 }
+            }
 
         }
     }

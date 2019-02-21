@@ -39,14 +39,14 @@ namespace MyCompanyInvoices.Module.BusinessObjects
 
             //var instance = SingletonSettings.GetInstance(objectSpace);
             
-            var userId = SecuritySystem.CurrentUserId;
+            //var userId = SecuritySystem.CurrentUserId;
            //SubsidiaryId = new Subsidiary(Session).Oid.ToString();
            
-           var user= Session.GetObjectByKey<PermissionPolicyUser>(SecuritySystem.CurrentUserId) as CompanySeller;
-            if (user != null) {
-                SubsidiaryId = user.Subsidiary.Oid;
-                IsGlobal = false;
-            }           
+           //var user= Session.GetObjectByKey<PermissionPolicyUser>(SecuritySystem.CurrentUserId) as CompanySeller;
+           // if (user != null) {
+           //     SubsidiaryId = user.Subsidiary.Oid;
+           //     IsGlobal = false;
+            //}           
 
             
             // Place your initialization code here (https://documentation.devexpress.com/eXpressAppFramework/CustomDocument112834.aspx).
@@ -72,7 +72,7 @@ namespace MyCompanyInvoices.Module.BusinessObjects
             }
         }
 
-    
+       [Browsable(false)]
         public Guid SubsidiaryId
         {
             get
